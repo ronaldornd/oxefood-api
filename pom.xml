@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>br.com.ifpe</groupId>
-	<artifactId>oxefood-api</artifactId>
+	<artifactId>oxefood-api-ronaldornd</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>oxefood-api</name>
+	<name>oxefood-api-ronaldornd</name>
 	<description>Oxefood Api</description>
 	<properties>
 		<java.version>17</java.version>
