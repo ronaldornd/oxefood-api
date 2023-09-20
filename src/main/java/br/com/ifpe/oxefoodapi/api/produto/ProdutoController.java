@@ -14,17 +14,17 @@ import br.com.ifpe.oxefoodapi.modelo.produto.ProdutoService;
 
 
 @RestController
-@RequestMapping("/api/entregador")
+@RequestMapping("/api/produto")
 @CrossOrigin
 public class ProdutoController {
 
    @Autowired
-   private ProdutoService entregadorService;
+   private ProdutoService produtoService;
 
    @PostMapping
    public ResponseEntity<Produto> save(@RequestBody ProdutoRequest request) {
 
-       Produto entregador = entregadorService.save(request.build());
-       return new ResponseEntity<Produto>(entregador, HttpStatus.CREATED);
+       Produto produto = produtoService.save(request.build());
+       return new ResponseEntity<Produto>(produto, HttpStatus.CREATED);
    }
 }
