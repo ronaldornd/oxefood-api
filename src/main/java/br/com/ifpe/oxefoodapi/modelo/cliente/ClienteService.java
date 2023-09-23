@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ClienteService {
-
+    
     @Autowired
     private ClienteRepository repository;
 
@@ -24,11 +24,14 @@ public class ClienteService {
     }
 
     public List<Cliente> findAll() {
+  
         return repository.findAll();
     }
 
     public Cliente findById(Long id) {
+
         return repository.findById(id).get();
     }
+
 
 }

@@ -2,7 +2,6 @@ package br.com.ifpe.oxefoodapi.api.cliente;
 
 import java.util.List;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,23 +20,26 @@ import br.com.ifpe.oxefoodapi.modelo.cliente.ClienteService;
 @RequestMapping("/api/cliente")
 @CrossOrigin
 public class ClienteController {
+    
+    @Autowired
+    private ClienteService clienteService;
 
-   @Autowired
-   private ClienteService clienteService;
+    @PostMapping
+    public ResponseEntity<Cliente> save(@RequestBody ClienteRequest request) {
 
-   @PostMapping
-   public ResponseEntity<Cliente> save(@RequestBody ClienteRequest request) {
+        Cliente cliente = clienteService.save(request.build());
+        return new ResponseEntity<Cliente>(cliente, HttpStatus.CREATED);
+    }
 
-       Cliente cliente = clienteService.save(request.build());
-       return new ResponseEntity<Cliente>(cliente, HttpStatus.CREATED);
-   }
-   @GetMapping
+    @GetMapping
     public List<Cliente> findAll() {
+  
         return clienteService.findAll();
     }
 
     @GetMapping("/{id}")
     public Cliente findById(@PathVariable Long id) {
+
         return clienteService.findById(id);
     }
 
