@@ -33,13 +33,11 @@ public class ClienteController {
    }
    @GetMapping
     public List<Cliente> findAll() {
-  
         return clienteService.findAll();
     }
 
     @GetMapping("/{id}")
     public Cliente findById(@PathVariable Long id) {
-
         return clienteService.findById(id);
     }
 

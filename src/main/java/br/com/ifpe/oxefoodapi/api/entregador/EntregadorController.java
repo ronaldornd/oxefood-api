@@ -33,7 +33,8 @@ public class EntregadorController {
    }
    @GetMapping
     public List<Entregador> findAll() {
-        return entregadorService.findAll();
+         List<Entregador> lista =  entregadorService.findAll();
+         return lista;
     }
 
     @GetMapping("/{id}")

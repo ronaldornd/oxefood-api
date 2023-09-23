@@ -1,5 +1,6 @@
 package br.com.ifpe.oxefoodapi.modelo.entregador;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -15,7 +16,9 @@ public class EntregadorService {
 
     @Transactional
     public Entregador save(Entregador entregador) {
+        entregador.setHabilitado(Boolean.TRUE);
         entregador.setVersao(1L);
+        entregador.setDataCriacao(LocalDate.now());
         return repository.save(entregador);
     }
 
