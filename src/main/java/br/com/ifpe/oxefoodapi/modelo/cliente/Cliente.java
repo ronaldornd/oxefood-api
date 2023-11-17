@@ -23,7 +23,10 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Cliente extends EntidadeAuditavel  {
+public class Cliente extends EntidadeAuditavel {
+
+    @Column
+    private String email;
 
     @Column
     private String nome;

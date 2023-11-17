@@ -8,20 +8,28 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.ifpe.oxefoodapi.modelo.mensagens.EmailService;
+
 @Service
 public class ClienteService {
 
     @Autowired
     private ClienteRepository repository;
 
+    @Autowired
+    private EmailService emailService;
+
     @Transactional
     public Cliente save(Cliente cliente) {
         cliente.setHabilitado(Boolean.TRUE);
         cliente.setVersao(1L);
         cliente.setDataCriacao(LocalDate.now());
-        return repository.save(cliente);
+        Cliente clienteSalvo = repository.save(cliente);
+        emailService.enviarEmailConfirmacaoCadastroCliente(clienteSalvo);
+        return clienteSalvo;
+
     }
-    
+
     @Transactional
     public void update(Long id, Cliente clienteAlterado) {
 
@@ -43,15 +51,28 @@ public class ClienteService {
     public Cliente findById(Long id) {
         return repository.findById(id).get();
     }
-    
+
     @Transactional
-   public void delete(Long id) {
+    public void delete(Long id) {
 
-       Cliente cliente = repository.findById(id).get();
-       cliente.setHabilitado(Boolean.FALSE);
-       cliente.setVersao(cliente.getVersao() + 1);
+        Cliente cliente = repository.findById(id).get();
+        cliente.setHabilitado(Boolean.FALSE);
+        cliente.setVersao(cliente.getVersao() + 1);
 
-       repository.save(cliente);
-   }
+        repository.save(cliente);
+    }
+
+    public List<Cliente> filtrar(String nome, String cpf) {
+        List<Cliente> listaClientes = repository.findAll();
+        if ((nome != null && !"".equals(nome)) &&
+                (cpf == null || !"".equals(cpf))) {
+            listaClientes = repository.findByNomeContainingIgnoreCaseOrderByNomeAsc(nome);
+        } else if ((nome == null && !"".equals(nome)) &&
+                (cpf != null && !"".equals(cpf))) {
+            listaClientes = repository.findByCpfContaining(cpf);
+        }
+
+        return listaClientes;
+    }
 
 }
