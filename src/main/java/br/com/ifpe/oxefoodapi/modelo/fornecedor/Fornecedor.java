@@ -25,7 +25,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Fornecedor extends EntidadeAuditavel  {
 
-   @Column
+   @Column(nullable = false, length = 100)
    private String nome;
 
    @Column

@@ -2,6 +2,8 @@ package br.com.ifpe.oxefoodapi.api.fornecedor;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,24 +20,24 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.ifpe.oxefoodapi.modelo.fornecedor.Fornecedor;
 import br.com.ifpe.oxefoodapi.modelo.fornecedor.FornecedorService;
 
-
 @RestController
 @RequestMapping("/api/fornecedor")
 @CrossOrigin
 public class FornecedorController {
 
-   @Autowired
-   private FornecedorService fornecedorService;
+    @Autowired
+    private FornecedorService fornecedorService;
 
-   @PostMapping
-   public ResponseEntity<Fornecedor> save(@RequestBody FornecedorRequest request) {
+    @PostMapping
+    public ResponseEntity<Fornecedor> save(@RequestBody @Valid FornecedorRequest request) {
 
-       Fornecedor fornecedor = fornecedorService.save(request.build());
-       return new ResponseEntity<Fornecedor>(fornecedor, HttpStatus.CREATED);
-   }
-   @GetMapping
+        Fornecedor fornecedor = fornecedorService.save(request.build());
+        return new ResponseEntity<Fornecedor>(fornecedor, HttpStatus.CREATED);
+    }
+
+    @GetMapping
     public List<Fornecedor> findAll() {
-  
+
         return fornecedorService.findAll();
     }
 
@@ -50,8 +52,9 @@ public class FornecedorController {
         fornecedorService.update(id, request.build());
         return ResponseEntity.ok().build();
     }
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable long id){
+    public ResponseEntity<Void> delete(@PathVariable long id) {
         fornecedorService.delete(id);
         return ResponseEntity.ok().build();
     }

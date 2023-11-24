@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Where;
+import org.hibernate.validator.constraints.Length;
 
 import br.com.ifpe.oxefoodapi.util.entity.EntidadeAuditavel;
 import lombok.AllArgsConstructor;
@@ -24,6 +25,7 @@ import lombok.Setter;
 public class CategoriaProduto extends EntidadeAuditavel {
 
    @Column
+   @Length(max = 100, message = "A descrição deverá ter no máximo {max} caracteres")
    private String descricao;
 
 }

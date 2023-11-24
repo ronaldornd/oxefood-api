@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.ifpe.oxefoodapi.util.exception.EntregadorException;
 
 @Service
 public class EntregadorService {
@@ -17,6 +18,9 @@ public class EntregadorService {
 
     @Transactional
     public Entregador save(Entregador entregador) {
+        if (entregador.getValorFrete() <= 5.0) {
+            throw new EntregadorException(EntregadorException.MSG_FRETE_BARATO);
+        }
         entregador.setHabilitado(Boolean.TRUE);
         entregador.setVersao(1L);
         entregador.setDataCriacao(LocalDate.now());
@@ -54,13 +58,14 @@ public class EntregadorService {
         entregador.setVersao(entregador.getVersao() + 1);
         repository.save(entregador);
     }
-      @Transactional
-   public void delete(Long id) {
 
-       Entregador entregador = repository.findById(id).get();
-       entregador.setHabilitado(Boolean.FALSE);
-       entregador.setVersao(entregador.getVersao() + 1);
+    @Transactional
+    public void delete(Long id) {
 
-       repository.save(entregador);
-   }
+        Entregador entregador = repository.findById(id).get();
+        entregador.setHabilitado(Boolean.FALSE);
+        entregador.setVersao(entregador.getVersao() + 1);
+
+        repository.save(entregador);
+    }
 }

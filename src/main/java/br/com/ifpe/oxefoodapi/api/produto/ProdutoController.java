@@ -2,6 +2,8 @@ package br.com.ifpe.oxefoodapi.api.produto;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +34,7 @@ public class ProdutoController {
     private CategoriaProdutoService categoriaProdutoService;
 
     @PostMapping
-    public ResponseEntity<Produto> save(@RequestBody ProdutoRequest request) {
+    public ResponseEntity<Produto> save(@RequestBody @Valid ProdutoRequest request) {
 
         Produto produtoNovo = request.build();
         produtoNovo.setCategoria(categoriaProdutoService.findById(request.getIdCategoria()));
