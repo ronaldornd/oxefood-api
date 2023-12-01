@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.ifpe.oxefoodapi.modelo.acesso.UsuarioService;
 import br.com.ifpe.oxefoodapi.modelo.mensagens.EmailService;
 import br.com.ifpe.oxefoodapi.util.exception.ClienteException;
 
@@ -20,16 +21,22 @@ public class ClienteService {
     @Autowired
     private EmailService emailService;
 
+    @Autowired
+    private UsuarioService usuarioService;
+
     @Transactional
     public Cliente save(Cliente cliente) {
+        usuarioService.save(cliente.getUsuario());
+
         if (cliente.getFoneCelular().length() >= 20) {
             throw new ClienteException(ClienteException.MSG_FONE_CELULAR_INVALIDO);
         }
+
         cliente.setHabilitado(Boolean.TRUE);
         cliente.setVersao(1L);
         cliente.setDataCriacao(LocalDate.now());
         Cliente clienteSalvo = repository.save(cliente);
-        emailService.enviarEmailConfirmacaoCadastroCliente(clienteSalvo);
+        // emailService.enviarEmailConfirmacaoCadastroCliente(clienteSalvo);
         return clienteSalvo;
 
     }

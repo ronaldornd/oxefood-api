@@ -1,6 +1,4 @@
-package br.com.ifpe.oxefoodapi.modelo.cliente;
-
-import java.time.LocalDate;
+package br.com.ifpe.oxefoodapi.modelo.empresa;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,8 +7,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Where;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 import br.com.ifpe.oxefoodapi.modelo.acesso.Usuario;
 import br.com.ifpe.oxefoodapi.util.entity.EntidadeAuditavel;
@@ -21,36 +17,50 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "Cliente")
+@Table(name = "Entregador")
 @Where(clause = "habilitado = true")
 @Builder
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Cliente extends EntidadeAuditavel {
+public class Empresa extends EntidadeAuditavel {
 
     @ManyToOne
     @JoinColumn(nullable = false)
     private Usuario usuario;
 
     @Column
-    private String email;
-
-    @Column(nullable = false, length = 100)
-    private String nome;
+    private String site;
 
     @Column
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    private LocalDate dataNascimento;
+    private String email;
 
-    @Column(unique = true)
-    private String cpf;
+    @Column
+    private String password;
 
-    @Column(length = 20)
-    private String foneCelular;
+    @Column
+    private String perfil;
 
-    @Column(length = 20)
-    private String foneFixo;
+    @Column
+    private String chave;
+
+    @Column
+    private String cnpj;
+
+    @Column
+    private String inscricaoEstadual;
+
+    @Column
+    private String nomeEmpresarial;
+
+    @Column
+    private String nomeFantasia;
+
+    @Column
+    private String fone;
+
+    @Column
+    private String foneAlternativo;
 
 }

@@ -53,7 +53,7 @@ public class EntregadorRequest {
     private String enderecoBairro;
 
     private String enderecoCidade;
-    
+
     @Length(min = 8, max = 8, message = "O campo CEP precisa ter {min}  caracteres")
     private String enderecoCep;
 

@@ -1,4 +1,4 @@
-package br.com.ifpe.oxefoodapi.api.cliente;
+package br.com.ifpe.oxefoodapi.api.empresa;
 
 import java.util.List;
 
@@ -15,39 +15,48 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.ifpe.oxefoodapi.modelo.cliente.Cliente;
-import br.com.ifpe.oxefoodapi.modelo.cliente.ClienteService;
+import br.com.ifpe.oxefoodapi.modelo.acesso.Usuario;
+import br.com.ifpe.oxefoodapi.modelo.empresa.Empresa;
+import br.com.ifpe.oxefoodapi.modelo.empresa.EmpresaService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @RestController
-@RequestMapping("/api/cliente")
+@RequestMapping("/api/empresa")
 @CrossOrigin
-public class ClienteController {
-
+public class EmpresaController {
     @Autowired
-    private ClienteService clienteService;
+    private EmpresaService empresaService;
 
-    @ApiOperation(value = "Serviço responsável por salvar um cliente no sistema.")
     @PostMapping
-    public ResponseEntity<Cliente> save(@RequestBody @Valid ClienteRequest request) {
-        Cliente cliente = clienteService.save(request.build());
-        return new ResponseEntity<Cliente>(cliente, HttpStatus.CREATED);
+    public ResponseEntity<Empresa> save(@RequestBody @Valid EmpresaRequest request) {
+
+        Empresa empresa = request.buildEmpresa();
+
+        if (request.getPerfil() != null && !"".equals(request.getPerfil())) {
+            if (request.getPerfil().equals("Usuario")) {
+                empresa.getUsuario().getRoles().add(Usuario.ROLE_EMPRESA_USER);
+            } else if (request.getPerfil().equals("Admin")) {
+                empresa.getUsuario().getRoles().add(Usuario.ROLE_EMPRESA);
+            }
+        }
+
+        Empresa empresaCriada = empresaService.save(empresa);
+        return new ResponseEntity<Empresa>(empresaCriada, HttpStatus.CREATED);
     }
 
-    @ApiOperation(value = "Serviço responsável por listar todos os clientes do sistema.")
+    @ApiOperation(value = "Serviço responsável por listar todos os empresas do sistema.")
     @GetMapping
-    public List<Cliente> findAll() {
-        return clienteService.findAll();
+    public List<Empresa> findAll() {
+        return empresaService.findAll();
     }
 
-    @ApiOperation(value = "Serviço responsável por obter um cliente referente ao Id passado na URL.")
+    @ApiOperation(value = "Serviço responsável por obter um empresa referente ao Id passado na URL.")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Retorna  o cliente."),
+            @ApiResponse(code = 200, message = "Retorna  o empresa."),
             @ApiResponse(code = 401, message = "Acesso não autorizado."),
             @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso."),
             @ApiResponse(code = 404, message = "Não foi encontrado um registro para o Id informado."),
@@ -55,28 +64,21 @@ public class ClienteController {
     })
 
     @GetMapping("/{id}")
-    public Cliente findById(@PathVariable Long id) {
-        return clienteService.findById(id);
+    public Empresa findById(@PathVariable Long id) {
+        return empresaService.findById(id);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Cliente> update(@PathVariable("id") @Valid Long id, @RequestBody ClienteRequest request) {
-        clienteService.update(id, request.build());
+    public ResponseEntity<Empresa> update(@PathVariable("id") @Valid Long id, @RequestBody EmpresaRequest request) {
+        empresaService.update(id, request.buildEmpresa());
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
 
-        clienteService.delete(id);
+        empresaService.delete(id);
         return ResponseEntity.ok().build();
-    }
-
-    @PostMapping("/filtrar")
-    public List<Cliente> filtrar(
-            @RequestParam(value = "nome", required = false) String nome,
-            @RequestParam(value = "cpf", required = false) String cpf) {
-        return clienteService.filtrar(nome, cpf);
     }
 
 }

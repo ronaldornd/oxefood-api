@@ -25,7 +25,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Fornecedor extends EntidadeAuditavel  {
+public class Fornecedor extends EntidadeAuditavel {
 
    @Column(nullable = false, length = 100)
    private String nome;
@@ -42,7 +42,7 @@ public class Fornecedor extends EntidadeAuditavel  {
 
    @Column
    private String paginaWeb;
-   
+
    @Column
    private String contatoVendedor;
 
