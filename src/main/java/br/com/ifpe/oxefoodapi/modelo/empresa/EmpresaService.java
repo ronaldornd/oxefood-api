@@ -44,7 +44,7 @@ public class EmpresaService {
         empresa.setNomeEmpresarial(empresaAlterado.getNomeEmpresarial());
         empresa.setNomeFantasia(empresaAlterado.getNomeFantasia());
         empresa.setFone(empresaAlterado.getFone());
-        empresa.setFoneAlternativo(empresaAlterado.getSite());
+        empresa.setFoneAlternativo(empresaAlterado.getFoneAlternativo());
         empresa.setVersao(empresa.getVersao() + 1);
         repository.save(empresa);
     }

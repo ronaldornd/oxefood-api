@@ -1,5 +1,7 @@
 package br.com.ifpe.oxefoodapi.api.empresa;
 
+import java.util.Arrays;
+
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
@@ -70,6 +72,7 @@ public class EmpresaRequest {
         return Usuario.builder()
                 .username(email)
                 .password(password)
+                .roles(Arrays.asList(Usuario.ROLE_EMPRESA_USER))
                 .build();
     }
 

@@ -64,7 +64,7 @@ public class SecurityConfig {
         .authenticationEntryPoint(authenticationEntryPoint).and().authorizeRequests()
    
         .antMatchers(AUTH_WHITELIST).permitAll()
-        .antMatchers(HttpMethod.POST, "/api/login/signin").permitAll()
+        .antMatchers(HttpMethod.POST, "/api/login").permitAll()
             
         .antMatchers(HttpMethod.POST, "/api/cliente").permitAll() //Libera o cadastro de cliente para o cadastro de usuário
         .antMatchers(HttpMethod.POST, "/api/empresa").permitAll() //Libera o cadastro de empresa para o cadastro de usuário
